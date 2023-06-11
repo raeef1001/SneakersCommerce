@@ -26,7 +26,7 @@ function App() {
   useEffect(()=>
    {
 
-    fetch('http://localhost:4545/products')
+    fetch('https://sneakersserver.onrender.com/products')
     .then(res=>res.json())
     .then(data=>{
         var fnew=[data]

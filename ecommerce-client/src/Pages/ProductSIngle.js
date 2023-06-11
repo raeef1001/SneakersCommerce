@@ -12,7 +12,7 @@ const ProductSIngle = ({cartItems,setCartItems,wishItems,setLovedItems,related})
     console.log(productid);
  async function fetchdata(){
     console.log("start fetching")
-    await fetch(`http://localhost:4545/singleproduct/${productid}`)
+    await fetch(`https://sneakersserver.onrender.com/singleproduct/${productid}`)
      .then(res=>res.json())
      .then(data=>{
          var fnew=data
