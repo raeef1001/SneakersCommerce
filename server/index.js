@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // mongoose 
-const uri =process.env.MongoUri ;
+const uri =process.env.MONGO_URI ;
 mongoose.connect(uri)
     .then(() => console.log('connected to server'))
     .catch((err) => console.log(err))
