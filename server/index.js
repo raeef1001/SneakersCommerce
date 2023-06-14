@@ -83,6 +83,15 @@ app.get('/singleproduct/:id', async (req, res) => {
 // })
 
 
+// always caller 
+let intervalID;
+
+function repeatEverySecond() {
+  intervalID = setInterval(sendMessage, 100000);
+  console.log(intervalID)
+}
+
+repeatEverySecond()
 // binding port 
 app.listen(4545, () => console.log('listening on 4545'))
 
