@@ -33,23 +33,18 @@
 
 ![Screen Shot](https://raeefofficial.netlify.app/static/media/sneak.baa890e502014e0cfab9.png)
 
-Features :
-Tailwind design
-Tailwind animations and effects
-Full responsiveness
-Credential authentication
-Google authentication
-Github authentication
-Image upload using Cloudinary CDN
-Calendars with react-date-range
-Page loading state
-Booking / Reservation system
-How to handle relations between Server and Child components!
-
+##Features :
+* [Tailwind design]()
+* [Tailwind animations and effects]()
+* [Full responsiveness]()
+* [Credential authentication]()
+* [Google authentication]()
+* [Image upload using Cloudinary CDN]()
+* [Calendars with react-date-range]()
+* [Page loading state]()
+* [Booking / Reservation system]()
 
 ## Built With
-
-
 
 * [CSS]()
 * [Tailwind]()
