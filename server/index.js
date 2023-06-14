@@ -90,6 +90,13 @@ function repeatEverySecond() {
   intervalID = setInterval(sendMessage, 100000);
   console.log(intervalID)
 }
+function sendMessage() {
+    console.log("called")
+      fetch('https://sneakersserver.onrender.com/products')
+      .then(response =>console.log(response) )
+        
+     
+  }
 
 repeatEverySecond()
 // binding port 
