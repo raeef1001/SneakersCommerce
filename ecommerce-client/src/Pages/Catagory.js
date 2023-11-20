@@ -9,7 +9,7 @@ const Catagory = () => {
     useEffect(()=>
      {
   
-      fetch(`https://sneakersserver.onrender.com/catagory/${catagory}`)
+      fetch(`http://localhost:4545/catagory/${catagory}`)
       .then(res=>res.json())
       .then(data=>{
           var fnew=[data]

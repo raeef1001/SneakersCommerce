@@ -7,26 +7,26 @@ const data = [
   { id: 3, name: "Categories", subMenu: true },
   { id: 4, name: "Contact", url: "/contact" },
 ];
-const catagories = [
-  { id: 1, name: "Jordan", url: "catagory/Jordan", doc_count: 11 },
-  { id: 2, name: "Sneakers", url: "catagory/Sneakers", doc_count: 8 },
-  {
-    id: 3,
-    name: "Running shoes",
-    url: "catagory/runningShoes",
-    doc_count: 64,
-  },
-  {
-    id: 4,
-    name: "Football shoes",
-    url: "catagory/footballShoes",
-    doc_count: 107,
-  },
-]
+// const catagories = [
+//   { id: 1, name: "Jordan", url: "catagory/Jordan", doc_count: 11 },
+//   { id: 2, name: "Sneakers", url: "catagory/Sneakers", doc_count: 8 },
+//   {
+//     id: 3,
+//     name: "Running shoes",
+//     url: "catagory/runningShoes",
+//     doc_count: 64,
+//   },
+//   {
+//     id: 4,
+//     name: "Football shoes",
+//     url: "catagory/footballShoes",
+//     doc_count: 107,
+//   },
+// ]
 
 
-const Menu = ({ showCatMenu, setShowCatMenu }) => {
-
+const Menu = ({ showCatMenu, setShowCatMenu,categories }) => {
+ var catagories=categories[0]
   return (
     <div className="z-50">
       <ul className="hidden md:flex items-center gap-8 font-medium text-black">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const CartItem = ({d,setQuant,quant}) => {
+const CartItem = ({d,total_cart,set_the_cart,setPrice_changed,price_changed}) => {
 
     return (
         <div className="flex py-5 gap-3 md:gap-5 border-b">
@@ -45,19 +45,30 @@ const CartItem = ({d,setQuant,quant}) => {
                             <div className="font-semibold">Size:</div>
                             <select
                                  className="hover:text-black"
-                                  onChange={(e) =>
-                               //     updateCartItem(e, "selectedSize")
-                               console.log(e)
-                                 }
+                                 onChange={(e)=>{
+                                   
+                                    const foundObject = total_cart.find(obj => obj._id === d._id);                                     
+                                    if (foundObject) {
+                                      foundObject.selected_Size = e.target.value;
+                                    } else {
+                                      console.log('Object not found with id:');
+                                    }
+
+                                set_the_cart(total_cart)
+                                console.log(total_cart)
+                             }
+                               
+                            }
                             >
-                                  {d.size.map((item, i) => {
+                                  {d.all_size.map((item, i) => {
                                     return (
                                         <option
                                             key={i}
                                             value={item}
                             
                                             selected={
-                                                d.selectedSize === item
+                                                d.selected_Size === item
+                                               
                                             }
                                         >
                                             {item}
@@ -71,17 +82,34 @@ const CartItem = ({d,setQuant,quant}) => {
                             <div className="font-semibold">Quantity:</div>
                            <select
                                 className="hover:text-black"
-                                 onChange={(e)=>setQuant([...quant,e.target.value*d.discountedPrice])}
+                                 onChange={(e)=>{
+                                   
+                                        const foundObject = total_cart.find(obj => obj._id === d._id);                                     
+                                        if (foundObject) {
+                                          foundObject.selected_quantity = e.target.value;
+                                          foundObject.total_price=(foundObject.selected_quantity*foundObject.discountedPrice)
+                                          console.log('Object modified:', foundObject);
+                                        } else {
+                                          console.log('Object not found with id:');
+                                        }
+
+                                    set_the_cart(total_cart)
+                                    setPrice_changed(!price_changed)
+                                    console.log(total_cart)
+                                 }
+                                   
+                                }
                             >
-                                {Array.from(
-                                    { length: 10 },
+                                { 
+                                Array.from(
+                                    { length: 10},
                                     (_, i) => i + 1
                                 ).map((q, i) => {
                                     return (
                                         <option
                                             key={i}
                                             value={q}
-                                            selected={d.quantity === q}
+                                            selected={parseInt(d.selected_quantity) === q}
                                         >
                                             {q}
                                         </option>

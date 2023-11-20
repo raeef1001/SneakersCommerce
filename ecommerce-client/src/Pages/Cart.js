@@ -2,18 +2,20 @@ import React, { useEffect, useState } from 'react';
 import CartItem from '../Components/CartItem';
 import { Link } from 'react-router-dom';
 
-const Cart = ({cartItems}) => {
-    const [quant,setQuant] =useState([])
-    const [totalprice,settotalPrice]=useState()
+const Cart = ({cartItems,setCartItems}) => {
+    // const [quant,setQuant] =useState([])
+    const [price_changed,setPrice_changed] = useState(true)
+    const [totalprice,settotalPrice]=useState(0)
     useEffect(()=>{
-        var total = cartItems.reduce((sum,c)=>sum+c.discountedPrice,0)
+        var total = cartItems.reduce((sum,c)=>sum+parseInt(c.total_price),0)
         settotalPrice(total)
-    },[])
-    useEffect(()=>{
-        var total = quant.reduce((sum,c)=>sum+c,0)
-        settotalPrice(total)
-    },[quant])
-  
+        console.log(cartItems)
+    },[cartItems,price_changed])
+    // useEffect(()=>{
+    //     var total = quant.reduce((sum,c)=>sum+c,0)
+    //     settotalPrice(total)
+    // },[quant])
+
     return (
         <div className='w-full md:py-20'>
             <div className='w-full max-w-[1280px] px-5 md:px-10 mx-auto'>
@@ -34,7 +36,7 @@ const Cart = ({cartItems}) => {
                          Cart Items
                      </div>
                    {
-                     cartItems.map(cr=><CartItem d={cr} setQuant={setQuant} quant={quant}></CartItem>)
+                     cartItems.map(cr=><CartItem d={cr} total_cart={cartItems} set_the_cart={setCartItems} setPrice_changed={setPrice_changed} price_changed={price_changed}></CartItem>)
                    }
                    
                  </div>
@@ -60,14 +62,16 @@ const Cart = ({cartItems}) => {
                          </div>
                      </div>
 
+         <Link to='../checkout'>
          
-                     <button
+         <button
                          className="w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75 flex items-center gap-2 justify-center"
                          // onClick={handlePayment}
                      >
                          Checkout
                          {/* // {loading && <img src="/spinner.svg" />}  */}
                       </button> 
+         </Link>
       
                  </div>
      

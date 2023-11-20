@@ -38,6 +38,33 @@ app.get('/products', async (req, res) => {
 })
 
 
+// header catagory : 
+async function getCat() {
+
+    const productlist = await Product.find()
+
+
+    let incrementingId = 1; // Start with id = 1
+
+   data = Object.entries(productlist.reduce((acc, obj) => {
+      const {  catagory } = obj;
+      acc[ catagory] = (acc[ catagory] || 0) + 1;
+      return acc;
+    }, {})).map(([ catagory, doc_count]) => ({
+      id: incrementingId++,
+      url: `catagory/${catagory}`,
+      name:catagory,
+      doc_count,
+    }));
+      
+
+}
+app.get('/catagoryList', async (req, res) => {
+    await getCat()
+    res.send(data)
+
+})
+
 // catagory 
 async function loadProductcat(cat) {
 
@@ -100,7 +127,7 @@ function sendMessage() {
 
 repeatEverySecond()
 // binding port 
-app.listen(4545, () => console.log('listening on 4545'))
+app.listen(4545)
 
 
 

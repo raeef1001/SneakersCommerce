@@ -11,21 +11,12 @@ import { BiMenuAltRight } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
 import MenuMobile from "./MenuMobile";
 
-const Header = ({ cartItems, wishItems }) => {
+const Header = ({ cartItems, wishItems,categories }) => {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showCatMenu, setShowCatMenu] = useState(false);
   const [show, setShow] = useState("translate-y-0");
   const [lastScrollY, setLastScrollY] = useState(0);
 
-
-  // useEffect(() => {
-  //   random();
-  // }, []);
-  // const random = async () => {
-  //   fetch("https://jsonplaceholder.typicode.com/todos/1")
-  //     .then((response) => response.json())
-  //     .then((json) => setCatagories(json));
-  // };
 
   const controlNavbar = () => {
     if (window.scrollY > 200) {
@@ -53,11 +44,12 @@ const Header = ({ cartItems, wishItems }) => {
         className={`w-full max-w-[1280px] px-5 md:px-10 mx-auto h-[60px] flex justify-between items-center`}
       >
         <Link to="/">
-          <img src={logo} alt="sdkfh" className="w-[40px] md:w-[60px]" />
+          <img src={logo} alt="logo" className="w-[40px] md:w-[60px]" />
         </Link>
         <Menu
           showCatMenu={showCatMenu}
           setShowCatMenu={setShowCatMenu}
+          categories={categories}
         
         ></Menu>
         {mobileMenu && (
@@ -65,6 +57,7 @@ const Header = ({ cartItems, wishItems }) => {
             showCatMenu={showCatMenu}
             setShowCatMenu={setShowCatMenu}
             setMobileMenu={setMobileMenu}
+            categories={categories}
   
           ></MenuMobile>
         )}
