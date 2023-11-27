@@ -4,7 +4,8 @@ var express = require('express');
 var bodyParser = require('body-parser')
 const cors = require('cors')
 const Product = require('./Product');
-
+const user = require('./User');
+const order = require('./Order');
 
 // node setup 
 var app = express();
@@ -24,13 +25,13 @@ var data
 async function loadProduct() {
 
     const productlist = await Product.find().limit(9)
-    console.log(productlist)
+    // console.log(productlist)
     data = productlist
 }
 app.get('/products', async (req, res) => {
     await loadProduct()
 
-    console.log("datasend" + data)
+    // console.log("datasend" + data)
     res.send(data)
 
 
@@ -69,7 +70,7 @@ app.get('/catagoryList', async (req, res) => {
 async function loadProductcat(cat) {
 
     const productlist = await Product.find({ catagory: `${cat}` }).limit(9)
-    console.log(productlist)
+    // console.log(productlist)
     data = productlist
 }
 app.get('/catagory/:id', async (req, res) => {
@@ -86,7 +87,7 @@ app.get('/catagory/:id', async (req, res) => {
 async function loadProductId(id) {
 
     const productlistid = await Product.findById(`${id}`)
-    console.log(productlistid)
+    // console.log(productlistid)
     data = productlistid
 }
 app.get('/singleproduct/:id', async (req, res) => {
@@ -110,17 +111,211 @@ app.get('/singleproduct/:id', async (req, res) => {
 // })
 
 
+
+
+
+// creating user : 
+async function findUser(id) {
+
+    const userid = await user.find({ id: `${id}` })
+    // console.log(userid)
+    return userid;
+}
+async function createUser(name, id, email, phone, iut_id, address, image, role,res,all_data_available) {
+    var u = await findUser(id)
+    if (u.length > 0) {
+        return u;
+        
+    }
+    else{
+        const user1 = new user({
+            name: name,
+            id: id,
+            email: email,
+            phone: phone,
+            iut_id: iut_id,
+            address: address,
+            image: image,
+            role: role,
+            all_data_available : all_data_available
+        })
+        await user1.save()
+        
+    }
+   
+}
+app.post('/addUser', async (req, res) => {
+    var name = req.body.name
+    var id = req.body.id
+    var email = req.body.email
+    var phone = req.body.phone
+    var iut_id = req.body.iut_id
+    var address = req.body.address
+    var image = req.body.image
+    var role = req.body.role
+    var all_data_available = req.body.all_data_available
+
+    try {
+      var aa =    await createUser(name, id, email, phone, iut_id, address, image, role,res,all_data_available)
+    } catch (error) {
+        console.error(error)
+    }
+    // await createUser(name, id, email, phone, iut_id, address, image, role,res,all_data_available)
+    res.send(aa)
+
+}
+)
+
+
+
+// updating user information : 
+async function updateUser(id, name, email, phone, image,student_id,department,batch,program,section,all_data_available) {
+    const updatedUser = await user.updateOne({ id: `${id}` }, {
+        $set: {
+            name: name,
+            email: email,
+            phone: phone,
+            image: image,
+            student_id : student_id,
+            department : department,
+            batch : batch,
+            program : program,
+            section : section,
+            all_data_available : all_data_available
+            
+        }
+    })
+    // console.log(updatedUser)
+    // console.log("called")
+    // console.log(id, email, phone, image,student_id,department,batch,program,section)
+}
+app.post('/updateUser', async (req, res) => {
+    var name = req.body.name
+    var id = req.body.id
+    var email = req.body.email
+    var phone = req.body.phone
+    var image = req.body.image
+    var student_id = req.body.student_id
+    var department = req.body.department
+    var batch = req.body.batch
+    var program = req.body.program
+    var section = req.body.section
+    var all_data_available = req.body.all_data_available
+
+    try {
+        await updateUser(id, name, email, phone, image,student_id,department,batch,program,section,all_data_available)
+        
+    } catch (error) {
+        console.error(error)
+        
+    }
+    
+   
+    res.send("user updated")
+
+}
+)
+
+
+
+
+
+// getting all the information about the user : 
+async function getUser(id) {
+    try {
+        const userid = await user.find({ id: `${id}` })
+        console.log("called getUser")
+        console.log(userid)
+        return userid;
+    } catch (error) {
+        console.log(error)
+    }
+
+  
+}
+app.get('/getUser/:id', async (req, res) => {
+    var id = req.params.id
+    data = await getUser(id)
+    if (data.length>0) {
+        res.send(data[0])
+        
+    }
+    // res.send(data[0])
+
+}
+)
+
+// http://localhost:4545/getUser/${userDetails.uid}
+
+
+
+
+
+// order : 
+async function createOrder(product_id, user_id) {
+    const order1 = new order({
+        product_id: product_id,
+        // seller_id: seller_id,
+        user_id: user_id,
+        // payment_amount: payment_amount,
+        // payment_method: payment_method,
+        // payment_status: payment_status,
+        // order_status: order_status,
+        // order_date: order_date,
+        // delivery_date: delivery_date,
+        // delivery_address: delivery_address,
+        // delivery_charge: delivery_charge,
+        // delivery_status: delivery_status
+    })
+    await order1.save()
+    console.log(order1)
+}
+app.post('/addOrder', async (req, res) => {
+    var product_id = req.body.product_id
+    // var seller_id = req.body.seller_id
+    var user_id = req.body.user_id
+    // var payment_amount = req.body.payment_amount
+    // var payment_method = req.body.payment_method
+    // var payment_status = req.body.payment_status
+    // var order_status = req.body.order_status
+    // var order_date = req.body.order_date
+    // var delivery_date = req.body.delivery_date
+    // var delivery_address = req.body.delivery_address
+    // var delivery_charge = req.body.delivery_charge
+    // var delivery_status = req.body.delivery_status
+
+    await createOrder(product_id, user_id)
+    res.send(product_id)
+
+}
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // always caller 
 let intervalID;
 
 function repeatEverySecond() {
   intervalID = setInterval(sendMessage, 100000);
-  console.log(intervalID)
+//   console.log(intervalID)
 }
 function sendMessage() {
     console.log("called")
       fetch('https://sneakersserver.onrender.com/products')
-      .then(response =>console.log(response) )
+    //   .then(response =>console.log(response) )
         
      
   }

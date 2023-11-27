@@ -1,11 +1,64 @@
 import React, { useEffect, useState } from "react";
 import CartItem from "../Components/CartItem";
 import { Link } from "react-router-dom";
+import FormCheckout from "../Components/FormCheckout";
+import { useContext } from "react";
+import { Context } from "../App";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Checkout = ({ cartItems, setCartItems }) => {
+  const [fakes,userDetails,openModal,setOpenModal,setUser] = useContext(Context);
   // const [quant,setQuant] =useState([])
   const [price_changed, setPrice_changed] = useState(true);
   const [totalprice, settotalPrice] = useState(0);
+  const [order, setOrder] = useState([]);
+  const [orderSent, sentOrderSent] = useState(false);
+  async function sendOrderData() {
+    try {
+      const response = await fetch('http://localhost:4545/addOrder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any additional headers as needed
+        },
+        body: JSON.stringify(order),
+      })
+   
+        if (response.ok) {
+          // var tempCart=[];
+        //  await setCartItems(tempCart);
+          // Successful submission logic
+          console.log('Data successfully submitted to the backend!');
+          sentOrderSent(false)
+          notify();
+  
+        } else {
+          // Handle errors from the backend
+          console.error('Error submitting data to the backend');
+        }
+     
+    } catch (error) {
+      // Handle fetch errors
+      console.error('Error:', error);
+    }
+  }
+  const handleOrder = () =>{
+  const orderList = {
+     product_id: cartItems,
+     user_id: userDetails.uid,   
+  }
+    setOrder(orderList);
+    // sentOrderSent(true);
+    sendOrderData();
+    sentOrderSent(true);
+
+      
+  
+
+}
+
+
   useEffect(() => {
     var total = cartItems.reduce((sum, c) => sum + parseInt(c.total_price), 0);
     settotalPrice(total);
@@ -15,9 +68,24 @@ const Checkout = ({ cartItems, setCartItems }) => {
   //     var total = quant.reduce((sum,c)=>sum+c,0)
   //     settotalPrice(total)
   // },[quant])
-
+  const notify = () => {
+    toast.success("Success Check Your Cart", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      price: "",
+      discountedPrice: "",
+      discount: "",
+    });
+  };
   return (
     <div className="w-full md:py-20">
+       <ToastContainer />
       <div className="w-full max-w-[1280px] px-5 md:px-10 mx-auto">
         {cartItems.length > 0 && (
           <>
@@ -38,6 +106,9 @@ const Checkout = ({ cartItems, setCartItems }) => {
                     price_changed={price_changed}
                   ></Checkout_cart>
                 ))}
+                 <div className="mt-24">
+                <FormCheckout />
+              </div>
               </div>
 
               <div className="flex-[1]">
@@ -72,7 +143,7 @@ const Checkout = ({ cartItems, setCartItems }) => {
                   </div>
                 </div>
                 <div className="p-5 my-5 bg-black/[0.05] rounded-xl">
-                <div className="flex justify-between mt-5">
+                  <div className="flex justify-between mt-5">
                     <div className=" text-md md:text-lg font-medium text-black">
                       Delivery Location
                     </div>
@@ -88,14 +159,14 @@ const Checkout = ({ cartItems, setCartItems }) => {
                       ${totalprice}
                     </div>
                   </div>
-                 
                 </div>
 
-                <button
+                <button disabled={!sentOrderSent}
                   className="w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75 flex items-center gap-2 justify-center"
-                  // onClick={handlePayment}
+                  onClick={handleOrder}
                 >
-                  Payment
+                  {sentOrderSent?"Order Now":"Sending"}
+
                   {/* // {loading && <img src="/spinner.svg" />}  */}
                 </button>
               </div>

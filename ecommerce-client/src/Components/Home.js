@@ -5,7 +5,7 @@ import fakedata from '../Fakedata'
 import { useContext } from 'react';
 import { Context } from '../App';
 const Home = () => {
-    const fakes = useContext(Context);
+    const [fakes,userDetails] = useContext(Context);
     return (
         <div>
             <HeroBanner></HeroBanner>

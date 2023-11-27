@@ -17,7 +17,8 @@ const ProductScema = new mongoose.Schema({
     allImages:[String],
     selectedSize:Number,
     quantity:Number,
-    size_quant:Object
+    size_quant:Object,
+    color: Object
 })
 
 // (2) make the collection and export the model 

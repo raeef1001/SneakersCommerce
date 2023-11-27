@@ -28,7 +28,7 @@ const data = [
 const Menu = ({ showCatMenu, setShowCatMenu,categories }) => {
  var catagories=categories[0]
   return (
-    <div className="z-50">
+    <div className="z-150">
       <ul className="hidden md:flex items-center gap-8 font-medium text-black">
         {data.map((item) => (
           <React.Fragment key={item.key}>

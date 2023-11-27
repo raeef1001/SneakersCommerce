@@ -7,26 +7,11 @@ const data = [
   { id: 3, name: "Categories", subMenu: true },
   { id: 4, name: "Contact", url: "/contact" },
 ];
-const catagories = [
-  { id: 1, name: "Jordan", url: "catagory/Jordan", doc_count: 11 },
-  { id: 2, name: "Sneakers", url: "catagory/Sneakers", doc_count: 8 },
-  {
-    id: 3,
-    name: "Running shoes",
-    url: "catagory/runningShoes",
-    doc_count: 64,
-  },
-  {
-    id: 4,
-    name: "Football shoes",
-    url: "catagory/footballShoes",
-    doc_count: 107,
-  },
-]
 
 
-const MenuMobile = ({ showCatMenu, setShowCatMenu, setMobileMenu }) => {
 
+const MenuMobile = ({ showCatMenu, setShowCatMenu, setMobileMenu ,categories}) => {
+  const catagories = categories[0]
   return (
     <div>
       <ul className="flex flex-col md:hidden font-bold absolute top-[50px] left-0 w-full h-[calc(100vh-50px)] bg-white border-t  text-black">
